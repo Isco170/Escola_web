@@ -3,10 +3,12 @@ package iscim.escola.domain;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
+@SuppressWarnings("serial")
 @Entity
 public class Turma extends GenericDomain {
-	@Column()
+	@Column(length = 50, unique = true, nullable = false)
 	private String descricao;
+	
 	private boolean apagado;
 
 	public String getDescricao() {
