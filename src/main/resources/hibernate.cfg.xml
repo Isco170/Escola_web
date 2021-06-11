@@ -31,6 +31,9 @@
 
 		<!-- Cria as tabelas do banco de dados -->
 		<property name="hbm2ddl.auto">create</property>
+		
+		<!-- Mapeamentos das entidades -->
+		<mapping class="iscim.escola.domain.Turma" />
 
 	</session-factory>
 
