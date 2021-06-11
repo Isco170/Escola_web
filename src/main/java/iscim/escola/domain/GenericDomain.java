@@ -12,13 +12,14 @@ import javax.persistence.MappedSuperclass;
 public class GenericDomain implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long codigo;
-	
-	public Long getCodigo() {
-		return codigo;
+	private Long identificacao;
+
+	public Long getIdentificacao() {
+		return identificacao;
+	}
+
+	public void setIdentificacao(Long identificacao) {
+		this.identificacao = identificacao;
 	}
 	
-	public void setCodigo(Long codigo) {
-		this.codigo = codigo;
-	}
 }

@@ -1,5 +1,8 @@
 package iscim.escola.domain;
 
+import javax.persistence.Entity;
+
+@Entity
 public class Turma extends GenericDomain {
 	private String descricao;
 	private boolean apagado;
