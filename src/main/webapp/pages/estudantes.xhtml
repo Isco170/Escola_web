@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	template="/templates/modelo.xhtml">
+
+	<ui:define name="conteudo">
+		<h:form id="formListagem">
+			<p:panel header="Estudantes - Listagem">
+				<p:dataTable id="tabela" emptyMessage="Nenhum estudante encontrado"
+					paginator="true" value="#{estudanteBean.estudantes}"
+					var="estudante" rows="5">
+					<f:facet name="header">
+						<p:commandButton value="Novo Estudante"
+							actionListener="#{estudanteBean.novo}"
+							oncomplete="PF('novoEstudante').show();"
+							update=":mensagem :formCadastro:painel" />
+					</f:facet>
+
+					<p:column headerText="Nome" filterBy="#{estudante.nome}"
+						sortBy="#{estudante.nome}">
+						<h:outputText value="#{estudante.nome}" />
+					</p:column>
+					<p:column headerText="Apelido" filterBy="#{estudante.apelido}"
+						sortBy="#{estudante.apelido}">
+						<h:outputText value="#{estudante.apelido}" />
+					</p:column>
+					<p:column headerText="Telefone" filterBy="#{estudante.telefone}"
+						sortBy="#{estudante.telefone}">
+						<h:outputText value="#{estudante.telefone}" />
+					</p:column>
+					<p:column headerText="Morada" filterBy="#{estudante.morada}"
+						sortBy="#{estudante.morada}">
+						<h:outputText value="#{estudante.morada}" />
+					</p:column>
+
+					<p:column headerText="Turma" filterBy="#{estudante.descricao}"
+						sortBy="#{estudante.turma.descricao}">
+						<h:outputText value="#{estudante.turma.descricao}" />
+					</p:column>
+
+					<p:column headerText="Opções">
+						<p:commandButton icon="ui-icon-trash"
+							actionListener="#{estudanteBean.excluir}"
+							update=":mensagem :formListagem:tabela">
+
+							<p:confirm header="Confirmação"
+								message="Deseja excluir estudante" icon="ui-icon-alert" />
+							<f:attribute name="estudanteSelecionado" value="#{estudante}" />
+						</p:commandButton>
+
+						<p:commandButton icon="ui-icon-pencil"
+							actionListener="#{estudanteBean.editar}"
+							update=":mensagem :formCadastro:painel"
+							oncomplete="PF('novoEstudante').show();">
+							<f:attribute name="estudanteSelecionado" value="#{estudante}" />
+						</p:commandButton>
+					</p:column>
+
+				</p:dataTable>
+				<p:confirmDialog global="true">
+					<p:commandButton value="Sim" type="button"
+						styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+					<p:commandButton value="Não" type="button"
+						styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+				</p:confirmDialog>
+			</p:panel>
+		</h:form>
+
+		<p:dialog header="Estudante - Cadastro" widgetVar="novoEstudante"
+			draggable="false" resizable="false" modal="true">
+
+			<h:form id="formCadastro">
+				<h:panelGrid columns="2" id="painel">
+					<p:outputLabel value="Nome:" />
+					<p:inputText size="30" value="#{estudanteBean.estudante.nome}" />
+
+					<p:outputLabel value="Apelido:" />
+					<p:inputText size="30" value="#{estudanteBean.estudante.apelido}" />
+
+					<p:outputLabel value="Telefone:" />
+					<p:inputText size="30" value="#{estudanteBean.estudante.telefone}" />
+
+					<p:outputLabel value="Morada:" />
+					<p:inputText size="30" value="#{estudanteBean.estudante.morada}" />
+
+					<p:outputLabel value="Turma:" />
+					<p:selectOneMenu filter="true"
+						value="#{estudanteBean.estudante.turma}"
+						converter="omnifaces.SelectItemsConverter">
+						<f:selectItem itemValue="" itemLabel="Selecione uma turma" />
+						<f:selectItems value="#{estudanteBean.turmas}" var="turma"
+							itemValue="#{turma}" itemLabel="#{turma.descricao}" />
+					</p:selectOneMenu>
+				</h:panelGrid>
+
+				<h:panelGrid columns="2">
+					<p:commandButton value="Salvar"
+						actionListener="#{estudanteBean.salvar}"
+						update=":mensagem :formCadastro:painel :formListagem:tabela" />
+					<p:commandButton value="Cancelar"
+						oncomplete="PF('novaTurma').hide();" />
+				</h:panelGrid>
+
+			</h:form>
+		</p:dialog>
+
+	</ui:define>
+</ui:composition>
